@@ -3,13 +3,13 @@ import './App.css';
 import HookCounterTwo from './components/HookCounterTwo';
 import ClassCounter from './components/ClassCounter';
 import HookCounterThree from './components/HookCounterThree';
-import HookCounterFour from './components/HookCounterFour';
+import HookCounterOne from './components/HookCounterOne';
 
 
 function App() {
   return (
     <div className="App">
-     <HookCounterFour />
+     <HookCounterOne />
     </div>
   );
 }
