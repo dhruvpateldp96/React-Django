@@ -1,15 +1,15 @@
 import React from 'react';
 import './App.css';
-import HookCounterTwo from './components/HookCounterTwo';
-import ClassCounter from './components/ClassCounter';
-import HookCounterThree from './components/HookCounterThree';
-import HookCounterOne from './components/HookCounterOne';
-
+import IntervalClassCounter from './components/IntervalClassCounter';
+import IntervalHookCounter from './components/IntervalHookCounter';
+import DataFetching from './components/DataFetching'
 
 function App() {
   return (
     <div className="App">
-     <HookCounterOne />
+     <IntervalClassCounter />
+     <IntervalHookCounter />
+     <DataFetching />
     </div>
   );
 }
