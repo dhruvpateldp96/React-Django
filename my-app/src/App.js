@@ -8,8 +8,8 @@ import './App.css';
 // import ComponentA from './components/ComponentA'
 // import ComponentB from './components/ComponentB'
 // import ComponentC from './components/ComponentC'
-import DataFetchingTwo from './components/DataFetchingTwo'
-
+// import DataFetchingTwo from './components/DataFetchingTwo'
+import FocusInput from './components/FocusInput'
 
 // export const CountContext = React.createContext()
 
@@ -35,8 +35,7 @@ function App() {
 
   return (
     <div>
-
-      <DataFetchingTwo />
+      <FocusInput />
     </div>
     // <CountContext.Provider value={{ countState: count, countDispatch: dispatch }}>
     //   <div className="App">
