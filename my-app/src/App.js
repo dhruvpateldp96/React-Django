@@ -9,7 +9,9 @@ import './App.css';
 // import ComponentB from './components/ComponentB'
 // import ComponentC from './components/ComponentC'
 // import DataFetchingTwo from './components/DataFetchingTwo'
-import FocusInput from './components/FocusInput'
+// import FocusInput from './components/FocusInput'
+import ClassTimer from './components/ClassTimer'
+
 
 // export const CountContext = React.createContext()
 
@@ -35,7 +37,7 @@ function App() {
 
   return (
     <div>
-      <FocusInput />
+      <ClassTimer />
     </div>
     // <CountContext.Provider value={{ countState: count, countDispatch: dispatch }}>
     //   <div className="App">
