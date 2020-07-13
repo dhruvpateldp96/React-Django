@@ -10,8 +10,9 @@ import './App.css';
 // import ComponentC from './components/ComponentC'
 // import DataFetchingTwo from './components/DataFetchingTwo'
 // import FocusInput from './components/FocusInput'
-import ClassTimer from './components/ClassTimer'
-
+// import HookTimer from './components/HookTimer'
+import DocTitleOne from './components/DocTitleOne'
+import DocTitleTwo from './components/DocTitleTwo'
 
 // export const CountContext = React.createContext()
 
@@ -21,7 +22,8 @@ import ClassTimer from './components/ClassTimer'
 //         case 'increment':
 //             return state+1
 //         case 'decrement':
-//             return state-1
+//             return state-1      <DocTitleOne />
+
 //         case 'reset':
 //             return initialState           
 //         default:
@@ -37,7 +39,9 @@ function App() {
 
   return (
     <div>
-      <ClassTimer />
+      <DocTitleOne />
+      <DocTitleTwo />
+
     </div>
     // <CountContext.Provider value={{ countState: count, countDispatch: dispatch }}>
     //   <div className="App">
