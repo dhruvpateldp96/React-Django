@@ -11,8 +11,8 @@ import './App.css';
 // import DataFetchingTwo from './components/DataFetchingTwo'
 // import FocusInput from './components/FocusInput'
 // import HookTimer from './components/HookTimer'
-import DocTitleOne from './components/DocTitleOne'
-import DocTitleTwo from './components/DocTitleTwo'
+// import DocTitleOne from './components/DocTitleOne'
+// import DocTitleTwo from './components/DocTitleTwo'
 
 // export const CountContext = React.createContext()
 
@@ -33,26 +33,48 @@ import DocTitleTwo from './components/DocTitleTwo'
 
 
 
-function App() {
+// function App() {
 
-  // const [count, dispatch] = useReducer(reducer, initialState)
+//   // const [count, dispatch] = useReducer(reducer, initialState)
+
+//   return (
+//     <div>
+//       <DocTitleOne />
+//       <DocTitleTwo />
+
+//     </div>
+//     // <CountContext.Provider value={{ countState: count, countDispatch: dispatch }}>
+//     //   <div className="App">
+//     //     Count {count }
+//     //     <ComponentA/>
+//     //     <ComponentB/>
+//     //     <ComponentC/>
+//     //   {/* <CounterThree /> */}
+//     // </div>
+//     // </CountContext.Provider>
+
+//   );
+// }
+import {toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
+toast.configure()
+function App() {
+  const notify = () => {
+    toast('Basic notification!',{position: toast.POSITION.TOP_CENTER})
+    toast.success('Basic notification!',{position: toast.POSITION.TOP_LEFT})
+    toast.info('Basic notification!',{position: toast.POSITION.TOP_RIGHT})
+    toast.warn('Basic notification!',{position: toast.POSITION.BOTTOM_CENTER})
+    toast.error('Basic notification!',{position: toast.POSITION.BOTTOM_LEFT})
+  }
 
   return (
-    <div>
-      <DocTitleOne />
-      <DocTitleTwo />
+    <div className="App">
 
+    <button onClick= {notify}>Notify</button>
     </div>
-    // <CountContext.Provider value={{ countState: count, countDispatch: dispatch }}>
-    //   <div className="App">
-    //     Count {count }
-    //     <ComponentA/>
-    //     <ComponentB/>
-    //     <ComponentC/>
-    //   {/* <CounterThree /> */}
-    // </div>
-    // </CountContext.Provider>
-
+    
+    
   );
 }
 
