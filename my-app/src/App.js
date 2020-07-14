@@ -58,13 +58,24 @@ import './App.css';
 import {toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
+
+const CustomToast = ({closeToast}) => {
+  return (
+    <div>
+      Something went wrong!
+      <button onClick = {closeToast}>Close</button>
+    </div>
+  )
+}
+
+
 toast.configure()
 function App() {
   const notify = () => {
     toast('Basic notification!',{position: toast.POSITION.TOP_CENTER})
     toast.success('Basic notification!',{position: toast.POSITION.TOP_LEFT})
     toast.info('Basic notification!',{position: toast.POSITION.TOP_RIGHT})
-    toast.warn('Basic notification!',{position: toast.POSITION.BOTTOM_CENTER})
+    toast.warn(<CustomToast /> ,{position: toast.POSITION.BOTTOM_CENTER})
     toast.error('Basic notification!',{position: toast.POSITION.BOTTOM_LEFT})
   }
 
