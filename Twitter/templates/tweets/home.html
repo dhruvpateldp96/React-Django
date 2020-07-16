@@ -2,4 +2,51 @@
 
 {% block content %}
 Welcome to Tweets
+<div id = "tweets">
+    Replace me
+</div>
+
+<script>
+    const tweetsElement = document.getElementById("tweets")
+    tweetsElement.innerHTML = "loading..."
+    
+    const xhr = new XMLHttpRequest()
+    const method = 'GET' 
+    const url = '/tweets'
+    const responseType = 'json'
+
+
+    function handleDidLike(tweet_id, currentCount){
+
+    }
+
+    function LikeBtn(tweet){
+        return "<button class ='btn btn-primary btn-sm' onClick = handleDidLike(" + tweet.id + "," + tweet.likes + ")>" + tweet.likes + " Like </button>"
+    }
+    function formatTweetElement(tweet){
+        var formattedTweetElement = "<div class='mb-4'><h1>" + tweet.id + "</h1>" +  
+            "<p>" + tweet.id.content + 
+                "</p><div class='btn-group'>" +LikeBtn(tweet)+
+                "</div></div>"
+        return formattedTweetElement
+    }
+    xhr.responseType = responseType
+    xhr.open(method,url)
+    xhr.onload = function() {
+        const serverResponse = xhr.response
+        var listedItems = xhr.response.response
+        var finalTweetStr = ""
+        var i
+        for (i=0;i<listedItems.length; i++){
+            console.log(listedItems[i])
+            var tweetObj = listedItems[i]
+            var currentItem = formatTweetElement(tweetObj)
+                finalTweetStr += currentItem
+        }
+        tweetsElement.innerHTML = finalTweetStr
+    }
+
+    xhr.send()
+
+</script>
 {%endblock content%}
