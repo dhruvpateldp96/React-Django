@@ -52,10 +52,13 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'tweetme2.urls'
 
+# import os
+# SETTINGS_PATH = os.path.dirname(os.path.dirname(__file__))
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates'),
+        # os.path.join(BASE_DIR, 'tweets', 'templates', 'tweets')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

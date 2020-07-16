@@ -4,7 +4,8 @@ from .models import Tweet
 
 # Create your views here.
 def home_view(request, *args, **kwargs):
-    return HttpResponse("<h1> Hello World</h1>")
+    return render(request,"pages/home.html", context = {},status = 200)
+
 
 def tweet_detail_view(request,tweet_id,*args,**kwargs):
     try:
@@ -12,7 +13,3 @@ def tweet_detail_view(request,tweet_id,*args,**kwargs):
     except:
         raise Http404
     return HttpResponse(f"<h1>Hello {tweet_id} - {obj.content}</h1>")
-
-
-def home_view(request, *args, **kwargs):
-    return render(request,"pages/home.html", context = {})
