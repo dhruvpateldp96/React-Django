@@ -12,3 +12,7 @@ def tweet_detail_view(request,tweet_id,*args,**kwargs):
     except:
         raise Http404
     return HttpResponse(f"<h1>Hello {tweet_id} - {obj.content}</h1>")
+
+
+def home_view(request, *args, **kwargs):
+    return render(request,"pages/home.html", context = {})
