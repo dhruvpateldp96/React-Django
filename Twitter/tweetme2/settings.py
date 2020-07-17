@@ -25,9 +25,9 @@ SECRET_KEY = 'l6n$5wb+e^wf6#qkfl07ki_vrxnmg)4co(m+(yl6g2qa-b4)sa'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [127.0.0.1]
-
-
+ALLOWED_HOSTS = []
+LOGIN_URL = '/login'
+MAX_TWEET_LENGTH = 240
 # Application definition
 
 INSTALLED_APPS = [
@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'tweets',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
