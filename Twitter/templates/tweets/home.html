@@ -1,7 +1,23 @@
 {% extends 'base.html'%}
 
 {% block content %}
-Welcome to Tweets
+<div class = 'row text-center'>
+    <div class = 'col'>
+        <h1> Welcome to Tweets </h1>
+    </div>
+</div>
+
+<div class = 'row'>
+    <div class = 'col-md-4 mx-auto col-10'>
+        <form class='form' method ='POST' action='/create-tweets'>
+            {% csrf_token %}
+            <input type='hidden' value='/' name = 'next'/>
+            <textarea cleass = 'form-control' name='content' placeholder="Your tweet"></textarea>
+            <button type='submit' class = 'btn btn-primary'> Tweet</button>
+        </form>
+    </div>
+</div>
+
 <div id = "tweets">
     Replace me
 </div>
@@ -10,6 +26,8 @@ Welcome to Tweets
     const tweetsElement = document.getElementById("tweets")
     tweetsElement.innerHTML = "loading..."
     
+    
+
     const xhr = new XMLHttpRequest()
     const method = 'GET' 
     const url = '/tweets'
@@ -24,8 +42,9 @@ Welcome to Tweets
         return "<button class ='btn btn-primary btn-sm' onClick = handleDidLike(" + tweet.id + "," + tweet.likes + ")>" + tweet.likes + " Like </button>"
     }
     function formatTweetElement(tweet){
-        var formattedTweetElement = "<div class='mb-4'><h1>" + tweet.id + "</h1>" +  
-            "<p>" + tweet.id.content + 
+        console.log(tweet.id.content)
+        var formattedTweetElement = "<div class=' col-12 border py-3 mb-4'><h1>" + tweet.id + "</h1>" +  
+            "<p>" + tweet.content + 
                 "</p><div class='btn-group'>" +LikeBtn(tweet)+
                 "</div></div>"
         return formattedTweetElement
