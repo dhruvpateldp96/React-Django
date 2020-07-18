@@ -3,7 +3,7 @@ from django.http import HttpResponse, Http404, JsonResponse, HttpResponseRedirec
 from .models import Tweet
 from .forms import TweetForm
 from django.utils.http import is_safe_url
-from .serializers import TweetSerializer
+from .serializers import TweetSerializer, TweetActionSerializer
 import random
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
@@ -84,9 +84,45 @@ def tweet_delete_view(request, tweet_id, *args, **kwargs):
     if not qs.exists():
         return Response({},status=404)
     # obj = qs.first()
+    qs = qs.filter(user=request.user)
     if not qs.exists():
         return Response({'message':'cant delete'},status=401)
-    qs = qs.filter(user=request.user)
     obj = qs.first()
     obj.delete()
     return Response({'meesage':'tweet removed'}, status=200)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def tweet_action_view(request, *args, **kwargs):
+    '''
+    Actions are like unlike and retweet
+    id is required
+    '''
+    print(request.data)
+    serializer = TweetActionSerializer(data= request.data)
+    if serializer.is_valid(raise_exception=True):
+        data = serializer.validated_data
+        tweet_id = data.get("id")
+        action = data.get("action")
+        qs = Tweet.objects.filter(id = tweet_id)
+        if not qs.exists():
+            return Response({},status=404)
+        # obj = qs.first()
+
+        obj = qs.first()
+        print(obj.like)
+        print(request.user)
+        if action == "like":
+            obj.like.add(request.user)
+            serializer = TweetSerializer(obj)
+            return Response(serializer.data, status=200)
+        elif action == "unlike":
+            obj.like.remove(request.user)
+        elif action == "retweet":
+            pass
+        # if request.user in obj.likes.all():
+        #     obj.like.remove(request.user)
+        # else:
+        #     obj.like.add(request.user)
+    return Response({'meesage':'Like added'}, status=200)
