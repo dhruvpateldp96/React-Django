@@ -6,7 +6,9 @@ from django.utils.http import is_safe_url
 from .serializers import TweetSerializer
 import random
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import SessionAuthentication
 
 # Create your views here.
 def home_view(request, *args, **kwargs):
@@ -20,12 +22,12 @@ def home_view(request, *args, **kwargs):
 #     }
 #     return JsonResponse(data)
 
-def tweet_detail_view(request,tweet_id,*args,**kwargs):
-    try:
-        obj= Tweet.objects.get(id = tweet_id)
-    except:
-        raise Http404
-    return HttpResponse(f"<h1>Hello {tweet_id} - {obj.content}</h1>")
+# def tweet_detail_view(request,tweet_id,*args,**kwargs):
+#     try:
+#         obj= Tweet.objects.get(id = tweet_id)
+#     except:
+#         raise Http404
+#     return HttpResponse(f"<h1>Hello {tweet_id} - {obj.content}</h1>")
 
 # def tweet_create_view(request,*args,**kwargs):
 #     form = TweetForm(request.POST or None)
@@ -41,6 +43,8 @@ def tweet_detail_view(request,tweet_id,*args,**kwargs):
 #     return render(request, 'components/forms.html', context = {"form":form})
 
 @api_view(['POST'])
+# @authentication_classes([SessionAuthentication]) 
+@permission_classes([IsAuthenticated])
 def tweet_create_view(request,*args,**kwargs):
     serializer = TweetSerializer(data = request.POST)
     # print("------------------------------------------------------------------------------------",serializer)
@@ -62,3 +66,27 @@ def tweet_list_view(request, *args, **kwargs):
     return Response(serializers.data)
 
 
+
+@api_view(['GET'])
+def tweet_detail_view(request, tweet_id, *args, **kwargs):
+    qs = Tweet.objects.filter(id = tweet_id)
+    if not qs.exists():
+        return Response({},status=404)
+    # obj = qs.first()
+    serializers = TweetSerializer(qs, many=True)
+    return Response(serializers.data)
+
+
+@api_view(['DELETE','POST'])
+@permission_classes([IsAuthenticated])
+def tweet_delete_view(request, tweet_id, *args, **kwargs):
+    qs = Tweet.objects.filter(id = tweet_id)
+    if not qs.exists():
+        return Response({},status=404)
+    # obj = qs.first()
+    if not qs.exists():
+        return Response({'message':'cant delete'},status=401)
+    qs = qs.filter(user=request.user)
+    obj = qs.first()
+    obj.delete()
+    return Response({'meesage':'tweet removed'}, status=200)
