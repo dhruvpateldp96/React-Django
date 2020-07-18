@@ -74,6 +74,7 @@
 
 
     function formatTweetElement(tweet){
+        // console.log(tweet.content)
         var formattedTweetElement = "<div class=' col-12 border py-3 mb-4'><h1>" + 
         // tweet.id +
          "</h1>" +  
@@ -138,12 +139,12 @@
     xhr.open(method,url)
     xhr.onload = function() {
         const serverResponse = xhr.response
-        console.log(serverResponse)
+        // console.log(serverResponse)
         var listedItems = xhr.response
         var finalTweetStr = ""
         var i
         for (i=0;i<listedItems.length; i++){
-            console.log(listedItems[i])
+            // console.log(listedItems[i])
             var tweetObj = listedItems[i]
             var currentItem = formatTweetElement(tweetObj)
                 finalTweetStr += currentItem
