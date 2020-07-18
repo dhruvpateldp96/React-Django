@@ -3,7 +3,7 @@ from django.http import HttpResponse, Http404, JsonResponse, HttpResponseRedirec
 from .models import Tweet
 from .forms import TweetForm
 from django.utils.http import is_safe_url
-from .serializers import TweetSerializer, TweetActionSerializer
+from .serializers import TweetSerializer, TweetActionSerializer, TweetCreateSerializer
 import random
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
@@ -46,7 +46,7 @@ def home_view(request, *args, **kwargs):
 # @authentication_classes([SessionAuthentication]) 
 @permission_classes([IsAuthenticated])
 def tweet_create_view(request,*args,**kwargs):
-    serializer = TweetSerializer(data = request.POST)
+    serializer = TweetCreateSerializer(data = request.POST)
     # print("------------------------------------------------------------------------------------",serializer)
     next_url = request.POST.get('next') or None
     if serializer.is_valid(raise_exception=True):
@@ -99,28 +99,33 @@ def tweet_action_view(request, *args, **kwargs):
     Actions are like unlike and retweet
     id is required
     '''
-    print(request.data)
+
     serializer = TweetActionSerializer(data= request.data)
     if serializer.is_valid(raise_exception=True):
         data = serializer.validated_data
         tweet_id = data.get("id")
         action = data.get("action")
         qs = Tweet.objects.filter(id = tweet_id)
+        content = data.get("content")
         if not qs.exists():
             return Response({},status=404)
         # obj = qs.first()
 
         obj = qs.first()
-        print(obj.like)
+        print(obj.likes)
         print(request.user)
         if action == "like":
-            obj.like.add(request.user)
+            obj.likes.add(request.user)
             serializer = TweetSerializer(obj)
             return Response(serializer.data, status=200)
         elif action == "unlike":
-            obj.like.remove(request.user)
+            obj.likes.remove(request.user)
         elif action == "retweet":
-            pass
+            parent_obj = obj
+            new_tweet = Tweet.objects.create(user= request.user,parent=parent_obj, content = content)
+            serializer = TweetActionSerializer(new_tweet)
+            return Response({},status=200)
+            # pass
         # if request.user in obj.likes.all():
         #     obj.like.remove(request.user)
         # else:

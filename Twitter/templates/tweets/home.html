@@ -46,7 +46,7 @@
 
 
     function LikeBtn(tweet){
-        return "<button class ='btn btn-primary btn-sm' onClick = handleTweetAction(" + tweet.id + "," + tweet.like + ",'like')>" + tweet.like + " Like </button>"
+        return "<button class ='btn btn-primary btn-sm' onClick = handleTweetAction(" + tweet.id + "," + tweet.likes + ",'like')>" + tweet.likes + " Like </button>"
     }
 
 
@@ -55,7 +55,7 @@
 
 
     function UnLikeBtn(tweet){
-        return "<button class ='btn btn-outline-primary btn-sm' onClick = handleTweetAction(" + tweet.id + "," + tweet.like + ",'unlike')>  UnLike </button>"
+        return "<button class ='btn btn-outline-primary btn-sm' onClick = handleTweetAction(" + tweet.id + "," + tweet.likes + ",'unlike')>  UnLike </button>"
     }
 
 
@@ -63,7 +63,7 @@
 
 
     function RetweetBtn(tweet){
-        return "<button class ='btn btn-outline-success btn-sm' onClick = handleTweetAction(" + tweet.id + "," + tweet.like + ",'retweet')>  retweet </button>"
+        return "<button class ='btn btn-outline-success btn-sm' onClick = handleTweetAction(" + tweet.id + "," + tweet.likes + ",'retweet')>  retweet </button>"
     }
 
 
@@ -138,7 +138,7 @@
     xhr.open(method,url)
     xhr.onload = function() {
         const serverResponse = xhr.response
-        // console.log(serverResponse)
+        console.log(serverResponse)
         var listedItems = xhr.response
         var finalTweetStr = ""
         var i
