@@ -1,5 +1,5 @@
 import React,  {useEffect, useState}  from 'react'
-import {loadTweets} from '../lookup/index'
+import {loadTweets, createTweet} from '../lookup/index'
 
 export function TweetComponent(props){
   const textAreaRef = React.createRef()
@@ -9,11 +9,15 @@ export function TweetComponent(props){
     const newVal = textAreaRef.current.value
     console.log(newVal)
     let tempNewTweets = [...newTweets]
-    tempNewTweets.unshift({
-      content: newVal,
-      likes: 0,
-      id: 12313,
+    createTweet(newVal, (response,status) =>{
+      if (status === 201){
+        tempNewTweets.unshift(response)
+      } else {
+        alert("An error has occured")
+      }
+      
     })
+  
     setNewTweets(tempNewTweets)
     textAreaRef.current.value = ""
   }
@@ -85,6 +89,7 @@ export function ActionBtn(props){
 export function TweetsList(props) {
     const [tweetsInit, setTweetsInit] = useState(props.newTweets ? props.newTweets : [])
     const [tweets, setTweets] = useState([])
+    const [tweetDidSet, setTweetDidSet] = useState(false)
     // console.log(props.newTweets)
     // setTweetsInit([...props.newTweets].concat(tweetsInit))
 
@@ -97,17 +102,21 @@ export function TweetsList(props) {
 
 
     useEffect(() => {
-      const myCallback= (response, status) => {
-        console.log("this nigger",response,status)
-        if (status===200){
-          const finalTweetsInit = [...response].concat(tweetsInit)
-          setTweetsInit(finalTweetsInit)
-        }else{
-          alert('there was an error')
+      if (tweetDidSet === false){
+        const myCallback= (response, status) => {
+          console.log("this nigger",response,status)
+          if (status===200){
+            // const finalTweetsInit = [...response].concat(tweetsInit)
+            // setTweetsInit(finalTweetsInit)
+            setTweetsInit(response)
+            setTweetDidSet(true)
+          }else{
+            alert('there was an error')
+          }
         }
+        loadTweets(myCallback)
       }
-      loadTweets(myCallback)
-    }, [tweetsInit])
+    }, [tweetsInit,tweetDidSet,setTweetDidSet])
   
     return tweets.map((item,index) => {
       return <Tweet tweet = {item} key={index} className ='my-5 py-5 border bg-white text-dark'/>
