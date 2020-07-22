@@ -49,13 +49,14 @@ export function ParentTweet(props){
   return tweet.parent ? <div className='row'>
   <div className='col-11 mx-auto p-3 border rounded'>
     <p className='mb-0 text-muted small'> Retweet </p>
-   <Tweet className={''} tweet={tweet.parent} ></Tweet>
+   <Tweet className={''} hideActions  tweet={tweet.parent} ></Tweet>
    </div>
    </div> : null
 }
 
 export function Tweet(props){
-    const {tweet} = props
+    const {tweet, didRetweet, hideActions} = props
+    // const {tweet} = props
     const [actionTweet, setActionTweet] = useState(props.tweet ? props.tweet : null)
     const className = props.className ? props.className : 'col-10 mx-auto'
 
@@ -64,6 +65,9 @@ export function Tweet(props){
         setActionTweet(newActionTweet)
       }else if (status ===201){
           //let the tweelist know
+          if (didRetweet){
+            didRetweet(newActionTweet)
+          }
       }
 
       }
@@ -75,7 +79,7 @@ export function Tweet(props){
         <ParentTweet tweet = {tweet}/>
       </div>
       
-      {actionTweet &&<div className='btn btn-group'>
+      {(actionTweet && hideActions !== true) &&<div className='btn btn-group'>
         <ActionBtn tweet={actionTweet} didPerformAction = {handlePerformAction} action= {{type:'like', display:"Likes"}}/>
         <ActionBtn tweet={actionTweet} didPerformAction = {handlePerformAction} action= {{type:'unlike', display:"Unlike"}}/>
         <ActionBtn tweet={actionTweet} didPerformAction = {handlePerformAction} action= {{type:'retweet', display:"Retweet"}}/>
@@ -151,9 +155,23 @@ export function TweetsList(props) {
         apitweetList(handleTweetListLookup)
       }
     }, [tweetsInit,tweetDidSet,setTweetDidSet])
+
+    const handleDidRetweet = (newTweet) => {
+        const updateTweetsInit = [...tweetsInit]
+        updateTweetsInit.unshift(newTweet)
+        setTweetsInit(updateTweetsInit)
+
+        const updateFinalTweets = [...tweets]
+        updateFinalTweets.unshift(newTweet)
+        setTweets(updateFinalTweets)
+    }
   
     return tweets.map((item,index) => {
-      return <Tweet tweet = {item} key={index} className ='my-5 py-5 border bg-white text-dark'/>
+      return <Tweet 
+      tweet = {item} 
+      didRetweet = {handleDidRetweet}
+      key={index} 
+      className ='my-5 py-5 border bg-white text-dark'/>
     })
 }
   
