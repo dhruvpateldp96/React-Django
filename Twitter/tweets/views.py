@@ -46,17 +46,17 @@ def home_view(request, *args, **kwargs):
 # @authentication_classes([SessionAuthentication]) 
 @permission_classes([IsAuthenticated])
 def tweet_create_view(request,*args,**kwargs):
-    serializer = TweetCreateSerializer(data = request.POST)
+    serializer = TweetCreateSerializer(data = request.data)
     # print("------------------------------------------------------------------------------------",serializer)
-    next_url = request.POST.get('next') or None
+    # next_url = request.POST.get('next') or None
     if serializer.is_valid(raise_exception=True):
         serializer.save(user=request.user)
-        Response(serializer.data, status=201)
+        return Response(serializer.data, status=201)
 
         # print("nigger.....................................................>>",obj)
-        if next_url != None:
-            return redirect(next_url)
-        # return 
+        # if next_url != None:
+        #     return redirect(next_url)
+        # # return 
     return Response({},status=400)
 
 @api_view(['GET'])

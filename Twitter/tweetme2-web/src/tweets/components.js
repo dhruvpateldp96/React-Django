@@ -1,24 +1,29 @@
 import React,  {useEffect, useState}  from 'react'
-import {loadTweets, createTweet} from '../lookup/index'
+import {apitweetCreate, apitweetList} from '../lookup/lookup'
 
 export function TweetComponent(props){
   const textAreaRef = React.createRef()
   const [newTweets, setNewTweets] = useState([])
+  
+  const handleBackendUpdate = (response, status) => {
+    //backend api response handler
+    let tempNewTweets = [...newTweets]
+    console.log(response,status)
+    if (status === 201){
+      tempNewTweets.unshift(response)
+      setNewTweets(tempNewTweets)
+    } else {
+      alert("An error has occured")
+    }
+  }
+
+  
   const handleSubmit = (event) => {
     event.preventDefault()
     const newVal = textAreaRef.current.value
     console.log(newVal)
-    let tempNewTweets = [...newTweets]
-    createTweet(newVal, (response,status) =>{
-      if (status === 201){
-        tempNewTweets.unshift(response)
-      } else {
-        alert("An error has occured")
-      }
-      
-    })
-  
-    setNewTweets(tempNewTweets)
+    //backend api request
+    apitweetCreate(newVal, handleBackendUpdate) 
     textAreaRef.current.value = ""
   }
 
@@ -103,8 +108,8 @@ export function TweetsList(props) {
 
     useEffect(() => {
       if (tweetDidSet === false){
-        const myCallback= (response, status) => {
-          console.log("this nigger",response,status)
+        const handleTweetListLookup= (response, status) => {
+          // console.log("this nigger",response,status)
           if (status===200){
             // const finalTweetsInit = [...response].concat(tweetsInit)
             // setTweetsInit(finalTweetsInit)
@@ -114,7 +119,7 @@ export function TweetsList(props) {
             alert('there was an error')
           }
         }
-        loadTweets(myCallback)
+        apitweetList(handleTweetListLookup)
       }
     }, [tweetsInit,tweetDidSet,setTweetDidSet])
   
