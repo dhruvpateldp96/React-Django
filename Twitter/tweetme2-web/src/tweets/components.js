@@ -1,5 +1,5 @@
 import React,  {useEffect, useState}  from 'react'
-import {apitweetCreate, apitweetList} from '../lookup/lookup'
+import {apitweetCreate, apitweetAction, apitweetList} from '../lookup/lookup'
 
 export function TweetComponent(props){
   const textAreaRef = React.createRef()
@@ -43,46 +43,75 @@ export function TweetComponent(props){
   </div>
 }
 
+export function ParentTweet(props){
+  const {tweet} = props
 
+  return tweet.parent ? <div className='row'>
+  <div className='col-11 mx-auto p-3 border rounded'>
+    <p className='mb-0 text-muted small'> Retweet </p>
+   <Tweet className={''} tweet={tweet.parent} ></Tweet>
+   </div>
+   </div> : null
+}
 
 export function Tweet(props){
     const {tweet} = props
-    const className = props.className ? props.className : 'btn btn-group'
+    const [actionTweet, setActionTweet] = useState(props.tweet ? props.tweet : null)
+    const className = props.className ? props.className : 'col-10 mx-auto'
+
+    const handlePerformAction = (newActionTweet,status) => {
+      if(status===200){
+        setActionTweet(newActionTweet)
+      }else if (status ===201){
+          //let the tweelist know
+      }
+
+      }
+      
+
     return <div className={className}>
-      <p>{tweet.id}-{tweet.content}</p>
-      <div className={className}>
-        <ActionBtn tweet={tweet} action= {{type:'like', display:"Likes"}}/>
-        <ActionBtn tweet={tweet} action= {{type:'unlike', display:"Unlike"}}/>
-        <ActionBtn tweet={tweet} action= {{type:'retweet', display:"Retweet"}}/>
+      <div>
+        <p>{tweet.id}-{tweet.content}</p>
+        <ParentTweet tweet = {tweet}/>
+      </div>
+      
+      {actionTweet &&<div className='btn btn-group'>
+        <ActionBtn tweet={actionTweet} didPerformAction = {handlePerformAction} action= {{type:'like', display:"Likes"}}/>
+        <ActionBtn tweet={actionTweet} didPerformAction = {handlePerformAction} action= {{type:'unlike', display:"Unlike"}}/>
+        <ActionBtn tweet={actionTweet} didPerformAction = {handlePerformAction} action= {{type:'retweet', display:"Retweet"}}/>
 
       </div>
+      }
     </div>
   }
   
   
   
 export function ActionBtn(props){
-    const {tweet, action} = props
-    const [likes, setLikes] = useState(tweet.likes ? tweet.likes :0)
+    const {tweet, action, didPerformAction} = props
+    const likes = tweet.likes ? tweet.likes :0
+    // const [likes, setLikes] = useState(tweet.likes ? tweet.likes :0)
     // const [justClicked, setJustClicked] = useState(false)
-    const [userLike, setUserLike] = useState(tweet.userLike === true ? true : false )
+    // const [userLike, setUserLike] = useState(tweet.userLike === true ? true : false )
 
     const className=props.className ? props.className : 'btn btn-primary btn-sm'
     const actionDisplay = action.display ? action.display : 'Action'
     // const display = action.type === 'like' ? `${tweet.likes} ${actionDisplay}` : `${actionDisplay}`
+    const handleActionBackendEvent = (response, status) =>{
+      console.log(response, status)
+      if ((status === 200 || status === 201) && didPerformAction){
+
+        didPerformAction(response,status)
+      }
+
+   }
+    
     const handleClick = (event) => {
       event.preventDefault()
-      if (action.type === 'like'){
-        if (userLike === true){
-          setLikes(likes - 1)
-          setUserLike(false)
-        }else{
-          setLikes(likes + 1)
-          setUserLike(true)
-        }
+      apitweetAction(tweet.id, action.type, handleActionBackendEvent)
+     
         
       }
-    }
     const display = action.type === 'like' ? `${likes} ${actionDisplay}`: `${actionDisplay}`
     return <button className ={className} onClick={handleClick}>{display} </button> 
 }
