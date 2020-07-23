@@ -10,6 +10,7 @@ export function ParentTweet(props) {
   </div> : null;
 }
 export function Tweet(props) {
+  // console.log("sex chade", props.tweet[0].content)
   const { tweet, didRetweet, hideActions } = props;
   // const {tweet} = props
   const [actionTweet, setActionTweet] = useState(props.tweet ? props.tweet : null);

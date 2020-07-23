@@ -67,6 +67,8 @@ def tweet_list_view(request, *args, **kwargs):
     if username != None:
         qs = qs.filter(user__username__iexact=username)
     serializers = TweetSerializer(qs, many=True)
+    # print("list view", serializers.data)
+    # print("-------------------------------------------------------------------------------------------------------------------------")
     return Response(serializers.data)
 
 
@@ -78,6 +80,7 @@ def tweet_detail_view(request, tweet_id, *args, **kwargs):
         return Response({},status=404)
     # obj = qs.first()
     serializers = TweetSerializer(qs, many=True)
+    # print(serializers.data)
     return Response(serializers.data)
 
 

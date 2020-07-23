@@ -21,13 +21,13 @@ export function TweetComponent(props) {
 
 
 export function TweetDetailComponent(props){
-
   const {tweetId} = props
   const [didLookup, setDidLookup] = useState(false)
   const [tweet, setTweet] = useState(null)
+  // console.log("yolo",props,tweetId)
 
   const handleBackendLookup = (response, status) => {
-    console.log(response,status)
+    console.log(response)
     if (status === 200){
       setTweet(response)
     }else{
@@ -37,11 +37,23 @@ export function TweetDetailComponent(props){
 
   useEffect(() => {
     if (didLookup === false){
-      setDidLookup(true)
       apitweetDetail(tweetId, handleBackendLookup)
+      setDidLookup(true)
+      
     }
 
   }, [tweetId,didLookup, setDidLookup])
+  // console.log(tweet)
 
-  return tweet === null ? null : <Tweet tweet={tweet} className={props.className} />
+  
+  return tweet === null ? null : tweet.map((item, index) => {
+    return <Tweet 
+    tweet={item}
+     key={`${index}-{item.id}`} 
+     className='my-5 py-5 border bg-white text-dark' />;
+  })
+
+
+
+  // return tweet === null ? null : <Tweet tweet={tweet} className={props.className} />
 }

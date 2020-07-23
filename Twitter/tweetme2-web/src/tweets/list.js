@@ -39,6 +39,10 @@ export function TweetsList(props) {
     setTweets(updateFinalTweets);
   };
   return tweets.map((item, index) => {
-    return <Tweet tweet={item} didRetweet={handleDidRetweet} key={index} className='my-5 py-5 border bg-white text-dark' />;
+    return <Tweet 
+    tweet={item}
+     didRetweet={handleDidRetweet} 
+     key={`${index}-{item.id}`} 
+     className='my-5 py-5 border bg-white text-dark' />;
   });
 }

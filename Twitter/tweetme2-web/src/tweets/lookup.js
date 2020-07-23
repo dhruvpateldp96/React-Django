@@ -11,7 +11,7 @@ export function apitweetAction(tweetId, action, callback){
 }
 
 export function apitweetList(username, callback){
-    let endpoint = "/tweets/"
+    let endpoint = "/tweets"
     if (username){
         endpoint = `/tweets/?username=${username}`
     }

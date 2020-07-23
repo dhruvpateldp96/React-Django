@@ -23,6 +23,7 @@ export function backendLookup(method, endpoint, callback, data){
   if (data){
     jsonData = JSON.stringify(data)
   }
+  // console.log('stringification', jsonData)
 
   const xhr = new XMLHttpRequest()
     // const method = 'GET' 
@@ -32,7 +33,7 @@ export function backendLookup(method, endpoint, callback, data){
     xhr.responseType = 'json'
     const csrftoken = getCookie('csrftoken');
     xhr.open(method,url)    
-    xhr.setRequestHeader("Content-Type", "application/json")
+    // xhr.setRequestHeader("Content-Type", "application/json")
 
     
     if (csrftoken){

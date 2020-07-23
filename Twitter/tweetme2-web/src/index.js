@@ -22,7 +22,7 @@ const tweetDetailElements = document.querySelectorAll(".tweetme-2-detail")
 
 tweetDetailElements.forEach(container => {
   ReactDOM.render(
-    event(TweetDetailComponent, tweetsEl.dataset),container);
+    event(TweetDetailComponent, container.dataset),container);
   
 })
 // If you want your app to work offline and load faster, you can change
