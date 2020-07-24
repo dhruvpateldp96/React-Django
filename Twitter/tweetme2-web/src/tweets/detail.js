@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ActionBtn } from './buttons';
+
 export function ParentTweet(props) {
   const { tweet } = props;
   return tweet.parent ? <div className='row'>
