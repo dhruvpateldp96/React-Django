@@ -6,6 +6,7 @@ export function TweetCreate(props){
   const textAreaRef = React.createRef()
   const {didTweet} = props
     const handleBackendUpdate = (response, status) =>{
+      console.log(response,status)
       if (status === 201){
         didTweet(response)
       } else {

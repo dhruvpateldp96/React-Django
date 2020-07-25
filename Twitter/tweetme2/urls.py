@@ -29,10 +29,20 @@ from tweets.views import (
                     local_tweets_list_view,
                     local_tweets_profile_view
                     )
+from accounts.views import (
+                    login_view,
+                    logout_view,
+                    register_view
+)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', local_tweets_list_view),
+    path('login/', login_view),
+    path('logout/', logout_view),
+    path('register/', register_view),
+
     path('<int:tweet_id>',local_tweets_list_view),
     path('profile/<str:username>',local_tweets_profile_view),
     # path('react/', TemplateView.as_view(template_name='react_via_dj.html')),

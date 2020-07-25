@@ -41,13 +41,15 @@ def home_view(request, *args, **kwargs):
 #     if form.errors:
 #         return JsonResponse(form.errors, status=400)
 #     return render(request, 'components/forms.html', context = {"form":form})
+# @authentication_classes([SessionAuthentication]) 
 
 @api_view(['POST'])
-# @authentication_classes([SessionAuthentication]) 
 @permission_classes([IsAuthenticated])
 def tweet_create_view(request,*args,**kwargs):
     serializer = TweetCreateSerializer(data = request.data)
-    # print("------------------------------------------------------------------------------------",serializer)
+
+    print("------------------------------------------------------------------------------------",serializer)
+    print(serializer)
     # next_url = request.POST.get('next') or None
     if serializer.is_valid(raise_exception=True):
         serializer.save(user=request.user)
