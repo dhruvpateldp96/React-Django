@@ -12,7 +12,7 @@ class TweetLike(models.Model):
 # Create your models here.
 class Tweet(models.Model):
     parent = models.ForeignKey("self", null=True, on_delete=models.SET_NULL)
-    user = models.ForeignKey(User,on_delete = models.CASCADE)
+    user = models.ForeignKey(User,on_delete = models.CASCADE, related_name="tweets")
     content = models.TextField(blank=True, null=True)
     likes = models.ManyToManyField(User, related_name='tweet_user', blank=True)
     image = models.FileField(upload_to='images/',blank=True,null=True)
