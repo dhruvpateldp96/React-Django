@@ -44,7 +44,7 @@ urlpatterns = [
     path('register/', register_view),
 
     path('<int:tweet_id>',local_tweets_list_view),
-    path('profile/<str:username>',local_tweets_profile_view),
+    path('profile/',include('profiles.urls')),
     # path('react/', TemplateView.as_view(template_name='react_via_dj.html')),
     # path('tweets/<int:tweet_id>',tweet_detail_view),
     # path('tweets',tweet_list_view),
